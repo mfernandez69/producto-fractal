@@ -2,16 +2,19 @@
 import { Injectable } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { map, switchMap, of } from 'rxjs';
+import { map,} from 'rxjs';
+
 import { AuthService } from '../services/auth.service';
+import { AuthStateService } from '../../shared/services/auth-state.service';
 
 export const privateGuard = (): CanActivateFn => {
   return () => {
     const router = inject(Router);
-    const authService = inject(AuthService);
+    const authState = inject(AuthStateService);
+    //const authService = inject(AuthService);
     
-    return authService.isAuthenticated$.pipe(
-      map(isAuthenticated => {
+    return authState.authState$.pipe(
+        map(isAuthenticated => {
         if (isAuthenticated) {
           return true;
         }
