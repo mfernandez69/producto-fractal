@@ -20,6 +20,7 @@ export interface LoginData {
 })
 export class AuthService {
   private _auth = inject(Auth);
+    isAuthenticated$: any;
 
   // Register a new user with email and password
   async signUp(email: string, password: string): Promise<UserCredential> {
