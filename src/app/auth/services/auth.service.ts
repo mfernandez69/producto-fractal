@@ -8,6 +8,11 @@ import {
   UserCredential,
   signOut
 } from '@angular/fire/auth';
+import { 
+  Firestore, 
+  doc, 
+  getDoc 
+} from '@angular/fire/firestore';
 import { FirebaseError } from 'firebase/app';
 
 export interface LoginData {
@@ -20,7 +25,8 @@ export interface LoginData {
 })
 export class AuthService {
   private _auth = inject(Auth);
-    isAuthenticated$: any;
+  private _firestore = inject(Firestore);
+  isAuthenticated$: any;
 
   // Register a new user with email and password
   async signUp(email: string, password: string): Promise<UserCredential> {
@@ -63,5 +69,24 @@ export class AuthService {
   // Get current user
   get currentUser() {
     return this._auth.currentUser;
+  }
+
+  // Get user role from Firestore
+  async getUserRole(uid: string): Promise<'admin' | 'student' | 'teacher'> {
+    try {
+      const userDoc = await getDoc(doc(this._firestore, "Usuario", uid));
+      const role = userDoc.data()?.['role'];
+      
+      // Check if role is one of the valid options
+      if (role === 'admin' || role === 'student' || role === 'teacher') {
+        return role;
+      }
+      
+      // Default role if not specified or invalid
+      return 'student';
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+      return 'student'; // Default role on error
+    }
   }
 }
