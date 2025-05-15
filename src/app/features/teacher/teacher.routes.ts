@@ -2,10 +2,10 @@ import { Routes } from "@angular/router";
 import { privateGuard } from "../../auth/guards/auth.guard";
 import { roleGuard } from "../../auth/guards/role.guard";
 
-export const studentRoutes: Routes = [
+export const teachertRoutes: Routes = [
     {
-        path: 'student',
-        canActivate: [privateGuard(), roleGuard(['student'])],
+        path: 'teacher',
+        canActivate: [privateGuard(), roleGuard(['teacher'])],
         children: [
             {
                 path: '',
