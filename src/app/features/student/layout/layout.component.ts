@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RankingComponent } from "../components/ranking/ranking.component";
 
 @Component({
   selector: 'app-layout',
-  imports: [],
+  imports: [RankingComponent],
   templateUrl: './layout.component.html',
   styles: ``
 })

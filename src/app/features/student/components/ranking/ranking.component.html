@@ -1,0 +1,45 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-center mb-8 text-purple-800">Ranking de Estudiantes</h1>
+  
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div class="flex bg-purple-600 text-white py-3 px-4">
+      <div class="w-16 font-bold text-center">#</div>
+      <div class="flex-1 font-bold">Estudiante</div>
+      <div class="w-32 font-bold text-center">Puntuación</div>
+    </div>
+    
+    <div *ngIf="loading" class="p-8 text-center text-gray-600">
+      <p>Cargando ranking...</p>
+    </div>
+    
+    <div *ngIf="errorMessage" class="p-8 text-center text-red-600">
+      <p>{{ errorMessage }}</p>
+    </div>
+    
+    <ng-container *ngIf="!loading && !errorMessage">
+      <div *ngFor="let student of rankedStudents; let i = index" 
+          class="flex items-center py-3 px-4 border-b hover:bg-gray-50 transition-colors duration-150"
+          [ngClass]="{'bg-yellow-50': i === 0, 'bg-gray-50': i === 1, 'bg-orange-50': i === 2}">
+        <div class="w-16 text-center">
+          <span class="inline-flex items-center justify-center h-8 w-8 rounded-full" 
+                [ngClass]="{
+                  'bg-yellow-400 text-yellow-900': i === 0,
+                  'bg-gray-300 text-gray-800': i === 1, 
+                  'bg-orange-300 text-orange-900': i === 2,
+                  'bg-purple-100 text-purple-800': i > 2
+                }">
+            {{ i + 1 }}
+          </span>
+        </div>
+        <div class="flex-1">{{ student.email }}</div>
+        <div class="w-32 text-center font-bold" [ngClass]="{'text-yellow-600': i === 0, 'text-gray-600': i === 1, 'text-orange-600': i === 2}">
+          {{ student.puntuacion }}
+        </div>
+      </div>
+      
+      <div *ngIf="rankedStudents.length === 0" class="p-6 text-center text-gray-600">
+        No hay estudiantes para mostrar en el ranking.
+      </div>
+    </ng-container>
+  </div>
+</div>
