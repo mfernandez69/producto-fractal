@@ -67,11 +67,34 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     
     // Group events by date string
     events.forEach(event => {
-      const dateStr = this.getDateKey(event.fecha);
-      if (!this.eventsByDate.has(dateStr)) {
-        this.eventsByDate.set(dateStr, []);
+      if (event.fecha) {
+        // Ensure fecha is a valid Date
+        let eventDate: Date;
+        if (event.fecha instanceof Date) {
+          eventDate = event.fecha;
+        } else if (typeof event.fecha.toDate === 'function') {
+          // Handle Firestore Timestamp object
+          eventDate = event.fecha.toDate();
+        } else if (typeof event.fecha === 'object' && event.fecha.seconds !== undefined) {
+          // Handle serialized Firestore timestamp
+          eventDate = new Date(event.fecha.seconds * 1000);
+        } else {
+          // Fallback for string or number
+          eventDate = new Date(event.fecha as any);
+        }
+        if (!isNaN(eventDate.getTime())) {
+          const dateStr = this.getDateKey(eventDate);
+          if (!this.eventsByDate.has(dateStr)) {
+            this.eventsByDate.set(dateStr, []);
+          }
+          this.eventsByDate.get(dateStr)!.push({
+            ...event,
+            fecha: eventDate  // Replace with valid Date
+          });
+        } else {
+          console.error('Invalid event date:', event.fecha, 'for event:', event);
+        }
       }
-      this.eventsByDate.get(dateStr)!.push(event);
     });
   }
 
@@ -184,15 +207,51 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     return date.getMonth() === this.currentMonth.getMonth();
   }
 
-  // Format date for display in the event list
-  formatDate(date: Date): string {
-    return date.toLocaleDateString('es-ES', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+  // Format date for display in the event list with safety checks
+  formatDate(date: any): string {
+    if (!date) {
+      return 'Fecha no disponible';
+    }
+    
+    let validDate: Date;
+    
+    // Handle different date formats
+    if (date instanceof Date) {
+      validDate = date;
+    } else if (typeof date === 'object' && date.seconds !== undefined) {
+      // Handle Firestore timestamp
+      validDate = new Date(date.seconds * 1000);
+    } else if (typeof date.toDate === 'function') {
+      // Handle Firestore Timestamp object
+      validDate = date.toDate();
+    } else {
+      try {
+        validDate = new Date(date);
+      } catch (e) {
+        console.error('Error formatting date:', e);
+        return 'Fecha inválida';
+      }
+    }
+    
+    // Check if the date is valid before formatting
+    if (isNaN(validDate.getTime())) {
+      console.error('Invalid date for formatting:', date);
+      return 'Fecha inválida';
+    }
+    
+    try {
+      return validDate.toLocaleDateString('es-ES', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (e) {
+      console.error('Error formatting date with toLocaleDateString:', e);
+      // Fallback formatting
+      return `${validDate.getDate()}/${validDate.getMonth() + 1}/${validDate.getFullYear()} ${validDate.getHours()}:${validDate.getMinutes()}`;
+    }
   }
 }

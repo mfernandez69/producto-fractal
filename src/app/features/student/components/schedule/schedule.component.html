@@ -68,12 +68,12 @@
       <!-- Display events list -->
       <div *ngIf="events.length > 0" class="space-y-4">
         <div *ngFor="let event of events" class="border-l-4 border-blue-500 pl-3 py-2">
-          <h3 class="font-semibold text-lg">{{ event.titulo }}</h3>
+          <h3 class="font-semibold text-lg">{{ event.titulo || 'Sin título' }}</h3>
           <p class="text-sm text-gray-600">{{ formatDate(event.fecha) }}</p>
-          <p class="text-sm mt-2">{{ event.descripcion }}</p>
+          <p class="text-sm mt-2">{{ event.descripcion || 'Sin descripción' }}</p>
           <div class="mt-2 text-xs text-gray-500">
-            <span>{{ event.ubicacion }}</span>
-            <span class="ml-4">Organiza: {{ event.organizador }}</span>
+            <span>{{ event.ubicacion || 'Sin ubicación' }}</span>
+            <span class="ml-4">Organiza: {{ event.organizador || 'No especificado' }}</span>
           </div>
         </div>
       </div>
