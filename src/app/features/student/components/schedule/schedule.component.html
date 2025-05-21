@@ -1,0 +1,82 @@
+<div class="flex flex-col md:flex-row w-full gap-6 p-4">
+  <!-- Calendar Section -->
+  <div class="md:w-1/2 bg-white rounded-lg shadow-md p-4">
+    <!-- Calendar Header with Month Navigation -->
+    <div class="flex justify-between items-center mb-4">
+      <button (click)="previousMonth()" class="p-2 rounded-full hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      
+      <h2 class="text-xl font-semibold">
+        {{ monthNames[currentMonth.getMonth()] }} {{ currentMonth.getFullYear() }}
+      </h2>
+      
+      <button (click)="nextMonth()" class="p-2 rounded-full hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Calendar Grid -->
+    <div class="grid grid-cols-7 gap-1">
+      <!-- Day Headers -->
+      <div *ngFor="let day of weekDays" class="text-center font-medium text-gray-500 p-2">
+        {{ day }}
+      </div>
+      
+      <!-- Calendar Days -->
+      <div *ngFor="let day of calendarDays" 
+           [ngClass]="{
+             'bg-gray-100': !isCurrentMonth(day),
+             'bg-blue-100': isToday(day),
+             'bg-blue-200': selectedDate && day.getDate() === selectedDate.getDate() && 
+                            day.getMonth() === selectedDate.getMonth() &&
+                            day.getFullYear() === selectedDate.getFullYear()
+           }"
+           class="aspect-square p-1 border rounded cursor-pointer hover:bg-gray-50"
+           (click)="selectDate(day)">
+        <div class="h-full flex flex-col">
+          <span [ngClass]="{'text-gray-400': !isCurrentMonth(day), 'font-bold': isToday(day)}" 
+                class="text-sm">
+            {{ day.getDate() }}
+          </span>
+          
+          <!-- Event dot indicator - now using synchronous hasEvents -->
+          <div class="flex-grow flex items-end justify-center">
+            <div *ngIf="hasEvents(day)" class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Events List Section -->
+  <div class="md:w-1/2 bg-white rounded-lg shadow-md p-4">
+    <h2 class="text-xl font-semibold mb-4">
+      Eventos - {{ monthNames[currentMonth.getMonth()] }} {{ currentMonth.getFullYear() }}
+    </h2>
+    
+    <ng-container *ngIf="(monthEvents$ | async) as events">
+      <!-- Show message if no events -->
+      <div *ngIf="events.length === 0" class="text-center py-6 text-gray-500">
+        No hay eventos programados para este mes
+      </div>
+      
+      <!-- Display events list -->
+      <div *ngIf="events.length > 0" class="space-y-4">
+        <div *ngFor="let event of events" class="border-l-4 border-blue-500 pl-3 py-2">
+          <h3 class="font-semibold text-lg">{{ event.titulo }}</h3>
+          <p class="text-sm text-gray-600">{{ formatDate(event.fecha) }}</p>
+          <p class="text-sm mt-2">{{ event.descripcion }}</p>
+          <div class="mt-2 text-xs text-gray-500">
+            <span>{{ event.ubicacion }}</span>
+            <span class="ml-4">Organiza: {{ event.organizador }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
