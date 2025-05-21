@@ -30,6 +30,17 @@ export interface Usuario {
   role: 'student';
 }
 
+// Event interface
+export interface Evento {
+  titulo: string;
+  descripcion: string;
+  fecha: Date;
+  ubicacion: string;
+  organizador: string;
+  cursoRef: string;
+  createdAt: Date;
+}
+
 /**
  * Seeds user data into the Firestore database
  */
@@ -59,10 +70,41 @@ const seedUsers = async (): Promise<void> => {
   }
 };
 
+/**
+ * Seeds event data into the Firestore database
+ */
+const seedEvents = async (): Promise<void> => {
+  try {
+    console.log('Seeding events to database...');
+    const eventsCollection = collection(db, 'Evento');
+    
+    // Import event data from the sample-event-data file in the same folder
+    const { eventos } = await import('./sample-event-data');
+    
+    for (const evento of eventos) {
+      // Convert JavaScript Date to Firestore Timestamp
+      const eventData = {
+        ...evento,
+        fecha: Timestamp.fromDate(evento.fecha),
+        createdAt: Timestamp.fromDate(evento.createdAt)
+      };
+      
+      await addDoc(eventsCollection, eventData);
+      console.log(`Added event: ${evento.titulo}`);
+    }
+    
+    console.log('Event seeding completed successfully!');
+  } catch (error) {
+    console.error('Error seeding events:', error);
+    throw error;
+  }
+};
+
 // Main seeding function
 export const seedDatabase = async (): Promise<void> => {
   try {
-    await seedUsers();
+    //await seedUsers();
+    await seedEvents();
     console.log('Database seeding completed!');
   } catch (error) {
     console.error('Failed to seed database:', error);
