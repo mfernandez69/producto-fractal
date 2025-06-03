@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, query, where } from '@angular/fire/firestore';
+import { collection, collectionData, doc, query, updateDoc, where } from '@angular/fire/firestore';
 import { Firestore } from '@angular/fire/firestore';
-import { Observable, catchError, of, map } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 
 export interface Student {
   id?: string;
@@ -11,6 +11,7 @@ export interface Student {
   role: string;
   createdAt: Date;
   cursoRef: string;
+  deAlta?: boolean;
 }
 
 @Injectable({
@@ -36,7 +37,6 @@ export class TeacherService {
             // Convert Firestore timestamp to JavaScript Date
             createdAt: student.createdAt ? student.createdAt.toDate() : new Date()
           }))),
-
           catchError(error => {
             console.error('Error fetching students:', error);
             return of([]);
@@ -46,5 +46,19 @@ export class TeacherService {
       console.error('Error setting up students query:', error);
       return of([]);
     }
+  }
+
+  // Add updateStudent method
+  async updateStudent(student: Student): Promise<void> {
+    if (!student.id) {
+      throw new Error('Student ID is required for update');
+    }
+    
+    const studentRef = doc(this._firestore, 'Usuario', student.id);
+    
+    // Remove id from the data to be updated
+    const { id, ...studentData } = student;
+    
+    return updateDoc(studentRef, studentData);
   }
 }
