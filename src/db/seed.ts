@@ -103,7 +103,7 @@ const seedEvents = async (): Promise<void> => {
 // Main seeding function
 export const seedDatabase = async (): Promise<void> => {
   try {
-    //await seedUsers();
+    await seedUsers();
     await seedEvents();
     console.log('Database seeding completed!');
   } catch (error) {
