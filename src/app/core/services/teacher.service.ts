@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, doc, query, updateDoc, where } from '@angular/fire/firestore';
+import { collection, collectionData, deleteDoc, doc, query, updateDoc, where } from '@angular/fire/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { Observable, catchError, map, of } from 'rxjs';
 
@@ -60,5 +60,15 @@ export class TeacherService {
     const { id, ...studentData } = student;
     
     return updateDoc(studentRef, studentData);
+  }
+
+  // Add deleteStudent method
+  async deleteStudent(studentId: string): Promise<void> {
+    if (!studentId) {
+      throw new Error('Student ID is required for deletion');
+    }
+    
+    const studentRef = doc(this._firestore, 'Usuario', studentId);
+    return deleteDoc(studentRef);
   }
 }

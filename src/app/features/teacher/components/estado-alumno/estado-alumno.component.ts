@@ -99,8 +99,25 @@ export class EstadoAlumnoComponent implements OnInit {
   
   deleteStudent(student: Student): void {
     if (confirm(`¿Estás seguro de que deseas eliminar al alumno ${student.email}?`)) {
-      console.log('Delete student:', student);
-      // Functionality to be implemented later
+      if (!student.id) {
+        console.error('Cannot delete student without ID');
+        return;
+      }
+      
+      this.loading = true;
+      
+      this.teacherService.deleteStudent(student.id)
+        .then(() => {
+          console.log(`Student ${student.email} successfully deleted`);
+          // Refresh student list
+          this.students$ = this.teacherService.getAllStudents();
+        })
+        .catch(error => {
+          console.error('Error deleting student:', error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   }
 }
