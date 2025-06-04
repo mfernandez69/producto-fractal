@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { SubidaMaterialComponent } from '../components/subida-material/subida-material.component';
+import { ListadoRecursosComponent } from "../components/listado-recursos/listado-recursos.component";
 
 @Component({
   selector: 'app-layout',
-  imports: [SubidaMaterialComponent],
+  imports: [ListadoRecursosComponent],
   templateUrl: './layout.component.html',
   styles: ``
 })

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Material } from '../../../../models/material.model';
@@ -11,6 +11,8 @@ import { TeacherService } from '../../../../core/services/teacher.service';
   templateUrl: './subida-material.component.html',
 })
 export class SubidaMaterialComponent {
+  @Output() materialUploaded = new EventEmitter<void>();
+  
   materialForm: FormGroup;
   selectedFile: File | null = null;
   isUploading = false;
@@ -77,14 +79,18 @@ export class SubidaMaterialComponent {
   }
   
   private saveMaterialReference(material: Material) {
-    // Save the material reference to Firebase
     this.teacherService.saveRecurso(material)
       .then(id => {
         this.isUploading = false;
         this.isSuccess = true;
         this.materialForm.reset();
         this.selectedFile = null;
-        setTimeout(() => this.isSuccess = false, 3000);
+        
+        // Emit event to parent component
+        setTimeout(() => {
+          this.isSuccess = false;
+          this.materialUploaded.emit();
+        }, 1500);
       })
       .catch(error => {
         this.isUploading = false;

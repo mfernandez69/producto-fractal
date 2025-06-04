@@ -2,8 +2,8 @@ export interface Material {
   id?: string;
   title: string;
   description: string;
-  fileName: string;   // Just the name of the file
-  fileType: string;   // Still keeping file type (e.g., 'pdf')
+  fileName: string;   
+  fileType: string;   
   uploadDate: Date;
   cursoRef: string;
 }
