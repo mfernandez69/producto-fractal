@@ -2,9 +2,8 @@ export interface Material {
   id?: string;
   title: string;
   description: string;
-  fileId: string; // This stores the UploadThing file ID
-  fileType: string;
-  fileName: string;
+  fileName: string;   // Just the name of the file
+  fileType: string;   // Still keeping file type (e.g., 'pdf')
   uploadDate: Date;
-  cursoRef: string; // Reference to the course this material belongs to
+  cursoRef: string;
 }

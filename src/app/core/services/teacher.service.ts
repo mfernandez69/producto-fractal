@@ -74,7 +74,7 @@ export class TeacherService {
   }
 
   // Method to save material reference to Firebase after uploading to UploadThing
-  async saveMaterial(material: Material): Promise<string> {
+  async saveRecurso(material: Material): Promise<string> {
     // Convert JavaScript Date to Firestore Timestamp
     const materialData = {
       ...material,
@@ -85,39 +85,10 @@ export class TeacherService {
     const docRef = await addDoc(materialsCollection, materialData);
     return docRef.id;
   }
-
-  // Method to get all materials for a specific course
-  getMaterialsByCurso(cursoRef: string): Observable<Material[]> {
-    try {
-      const materialsCollection = collection(this._firestore, 'Materials');
-      
-      const materialsQuery = query(
-        materialsCollection,
-        where('cursoRef', '==', cursoRef)
-      );
-      
-      return (collectionData(materialsQuery, { idField: 'id' }) as Observable<any[]>)
-        .pipe(
-          map(materials => materials.map(material => ({
-            ...material,
-            // Convert Firestore timestamp to JavaScript Date
-            uploadDate: material.uploadDate ? material.uploadDate.toDate() : new Date()
-          }))),
-          catchError(error => {
-            console.error('Error fetching materials:', error);
-            return of([]);
-          })
-        );
-    } catch (error) {
-      console.error('Error setting up materials query:', error);
-      return of([]);
-    }
-  }
-
   // Method to get all materials
-  getAllMaterials(): Observable<Material[]> {
+  getAllsaveRecursos(): Observable<Material[]> {
     try {
-      const materialsCollection = collection(this._firestore, 'Materials');
+      const materialsCollection = collection(this._firestore, 'Recurso');
       
       return (collectionData(materialsCollection, { idField: 'id' }) as Observable<any[]>)
         .pipe(
@@ -134,33 +105,5 @@ export class TeacherService {
       console.error('Error setting up materials query:', error);
       return of([]);
     }
-  }
-
-  // Method to update material details
-  async updateMaterial(material: Material): Promise<void> {
-    if (!material.id) {
-      throw new Error('Material ID is required for update');
-    }
-    
-    const materialRef = doc(this._firestore, 'Materials', material.id);
-    
-    // Remove id from the data to be updated
-    const { id, ...materialData } = material;
-    const updateData = {
-      ...materialData,
-      uploadDate: Timestamp.fromDate(material.uploadDate)
-    };
-    
-    return updateDoc(materialRef, updateData);
-  }
-
-  // Method to delete a material
-  async deleteMaterial(materialId: string): Promise<void> {
-    if (!materialId) {
-      throw new Error('Material ID is required for deletion');
-    }
-    
-    const materialRef = doc(this._firestore, 'Materials', materialId);
-    return deleteDoc(materialRef);
   }
 }

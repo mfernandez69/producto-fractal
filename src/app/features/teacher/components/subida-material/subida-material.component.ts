@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Material } from '../../../../models/material.model';
-import { UploadService } from '../../../../core/services/upload.service';
 import { TeacherService } from '../../../../core/services/teacher.service';
 
 @Component({
@@ -20,7 +19,6 @@ export class SubidaMaterialComponent {
   
   constructor(
     private fb: FormBuilder,
-    private uploadService: UploadService,
     private teacherService: TeacherService
   ) {
     this.materialForm = this.fb.group({
@@ -60,28 +58,18 @@ export class SubidaMaterialComponent {
     this.errorMessage = '';
     
     try {
-      // Upload file to UploadThing
-      this.uploadService.uploadPdf(this.selectedFile).subscribe(
-        response => {
-          // Create material entry in Firebase with the UploadThing fileId
-          const newMaterial: Material = {
-            title: this.materialForm.value.title,
-            description: this.materialForm.value.description,
-            fileId: response.fileId, // Assuming response has fileId
-            fileType: 'pdf',
-            fileName: this.selectedFile!.name,
-            uploadDate: new Date(),
-            cursoRef: this.materialForm.value.cursoRef
-          };
-          
-          // Save reference to Firebase
-          this.saveMaterialReference(newMaterial);
-        },
-        error => {
-          this.isUploading = false;
-          this.errorMessage = 'Error al subir el archivo: ' + error.message;
-        }
-      );
+      // Create material entry with just the file name
+      const newMaterial: Material = {
+        title: this.materialForm.value.title,
+        description: this.materialForm.value.description,
+        fileType: 'pdf',
+        fileName: this.selectedFile!.name, // Store just the file name
+        uploadDate: new Date(),
+        cursoRef: this.materialForm.value.cursoRef
+      };
+      
+      // Save reference to Firebase (without uploading the actual file)
+      this.saveMaterialReference(newMaterial);
     } catch (error: any) {
       this.isUploading = false;
       this.errorMessage = 'Error: ' + error.message;
@@ -90,18 +78,17 @@ export class SubidaMaterialComponent {
   
   private saveMaterialReference(material: Material) {
     // Save the material reference to Firebase
-    this.teacherService.saveMaterial(material).then(
-      () => {
+    this.teacherService.saveRecurso(material)
+      .then(id => {
         this.isUploading = false;
         this.isSuccess = true;
         this.materialForm.reset();
         this.selectedFile = null;
         setTimeout(() => this.isSuccess = false, 3000);
-      },
-      error => {
+      })
+      .catch(error => {
         this.isUploading = false;
         this.errorMessage = 'Error al guardar la referencia: ' + error.message;
-      }
-    );
+      });
   }
 }
