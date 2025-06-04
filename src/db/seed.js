@@ -151,19 +151,20 @@ var seedDatabase = function () { return __awaiter(void 0, void 0, void 0, functi
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                //await seedUsers();
-                return [4 /*yield*/, seedEvents()];
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, seedUsers()];
             case 1:
-                //await seedUsers();
+                _a.sent();
+                return [4 /*yield*/, seedEvents()];
+            case 2:
                 _a.sent();
                 console.log('Database seeding completed!');
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 4];
+            case 3:
                 error_3 = _a.sent();
                 console.error('Failed to seed database:', error_3);
                 throw error_3;
-            case 3: return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
