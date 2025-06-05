@@ -1,0 +1,36 @@
+<div class="mb-8">
+  <h2 class="text-2xl font-bold text-gray-900 mb-6">Estadísticas del Dashboard</h2>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div *ngFor="let stat of stats" class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">{{ stat.title }}</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2">{{ stat.value }}</p>
+        </div>
+        <div class="p-3 rounded-full" [class.bg-blue-100]="stat.icon === 'users'" 
+             [class.bg-green-100]="stat.icon === 'chart'" 
+             [class.bg-purple-100]="stat.icon === 'box'"
+             [class.bg-orange-100]="stat.icon === 'trending'">
+          <svg class="w-6 h-6" [class.text-blue-600]="stat.icon === 'users'"
+               [class.text-green-600]="stat.icon === 'chart'"
+               [class.text-purple-600]="stat.icon === 'box'"
+               [class.text-orange-600]="stat.icon === 'trending'"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path *ngIf="stat.icon === 'users'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+            <path *ngIf="stat.icon === 'chart'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            <path *ngIf="stat.icon === 'box'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            <path *ngIf="stat.icon === 'trending'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center">
+        <span class="text-sm font-medium" [class.text-green-600]="stat.changeType === 'positive'"
+              [class.text-red-600]="stat.changeType === 'negative'">
+          {{ stat.change }}
+        </span>
+        <span class="text-sm text-gray-500 ml-2">vs mes anterior</span>
+      </div>
+    </div>
+  </div>
+</div>

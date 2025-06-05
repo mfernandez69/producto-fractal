@@ -1,1 +1,24 @@
-<h1>Este es el admin area</h1>
+<div class="min-h-screen bg-gray-100">
+  <!-- Top bar -->
+  <header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="flex items-center justify-between px-6 py-4">
+      <h1 class="text-2xl font-bold text-gray-900">Panel de Administración</h1>
+      <div class="flex items-center space-x-4">
+        <span class="text-sm text-gray-700">Bienvenido, Admin</span>
+        <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="p-6 space-y-8">
+    <!-- Estadísticas -->
+    <app-estadisticas></app-estadisticas>
+    
+    <!-- Gráficos -->
+    <app-grafico-simple></app-grafico-simple>
+    
+    <!-- Tabla de datos -->
+    <app-tabla-datos></app-tabla-datos>
+  </main>
+</div>
