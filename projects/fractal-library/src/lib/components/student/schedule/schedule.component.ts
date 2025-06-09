@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventService, Evento } from '../../../services/event.service';
+import { EventService } from '../../../services/event.service';
+import { Evento } from '../../../models/evento.model';
 import { Observable, Subscription, map, tap, shareReplay } from 'rxjs';
 
 @Component({

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { Student, TeacherService } from '../../../services/teacher.service';
+import { TeacherService } from '../../../services/teacher.service';
+import { Student } from '../../../models/student.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
