@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FractalLibraryComponent } from './fractal-library.component';
+import { ListadoRecursosComponent } from './listado-recursos.component';
 
-describe('FractalLibraryComponent', () => {
-  let component: FractalLibraryComponent;
-  let fixture: ComponentFixture<FractalLibraryComponent>;
+describe('ListadoRecursosComponent', () => {
+  let component: ListadoRecursosComponent;
+  let fixture: ComponentFixture<ListadoRecursosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FractalLibraryComponent]
+      imports: [ListadoRecursosComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FractalLibraryComponent);
+    fixture = TestBed.createComponent(ListadoRecursosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

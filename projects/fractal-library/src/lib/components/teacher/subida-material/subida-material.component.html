@@ -1,0 +1,84 @@
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-2xl mx-auto my-8">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Subir Material del Curso</h2>
+      
+      <form [formGroup]="materialForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div>
+          <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Título:</label>
+          <input 
+            type="text" 
+            id="title" 
+            formControlName="title" 
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            placeholder="Ingrese el título del material">
+          <div *ngIf="materialForm.get('title')?.invalid && materialForm.get('title')?.touched" class="text-red-500 text-sm mt-1">El título es obligatorio</div>
+        </div>
+
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Descripción:</label>
+          <textarea 
+            id="description" 
+            formControlName="description" 
+            rows="3" 
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            placeholder="Describa el material"></textarea>
+          <div *ngIf="materialForm.get('description')?.invalid && materialForm.get('description')?.touched" class="text-red-500 text-sm mt-1">La descripción es obligatoria</div>
+        </div>
+
+        <div>
+          <label for="cursoRef" class="block text-sm font-medium text-gray-700 mb-1">Curso:</label>
+          <input 
+            type="text" 
+            id="cursoRef" 
+            formControlName="cursoRef" 
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            placeholder="Ingrese el curso asociado">
+          <div *ngIf="materialForm.get('cursoRef')?.invalid && materialForm.get('cursoRef')?.touched" class="text-red-500 text-sm mt-1">El curso es obligatorio</div>
+        </div>
+
+        <div>
+          <label for="file" class="block text-sm font-medium text-gray-700 mb-1">Archivo PDF:</label>
+          <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-blue-500 transition-colors">
+            <div class="space-y-1 text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <div class="flex text-sm text-gray-600">
+                <label for="file" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                  <span>Seleccionar archivo</span>
+                  <input 
+                    id="file" 
+                    type="file"
+                    (change)="onFileSelected($event)" 
+                    accept="application/pdf" 
+                    class="sr-only">
+                </label>
+                <p class="pl-1">o arrastrar y soltar</p>
+              </div>
+              <p class="text-xs text-gray-500">PDF hasta 10MB</p>
+              <div *ngIf="selectedFile" class="text-sm text-green-600">{{ selectedFile.name }}</div>
+            </div>
+          </div>
+          <div *ngIf="!selectedFile && materialForm.get('file')?.touched" class="text-red-500 text-sm mt-1">Debe seleccionar un archivo PDF</div>
+        </div>
+
+        <div *ngIf="errorMessage" class="bg-red-50 text-red-700 p-3 rounded-md">{{ errorMessage }}</div>
+
+        <div *ngIf="isSuccess" class="bg-green-50 text-green-700 p-3 rounded-md">¡Material subido correctamente!</div>
+
+        <div class="flex justify-center">
+          <button 
+            type="submit" 
+            [disabled]="materialForm.invalid || isUploading || !selectedFile" 
+            class="py-2 px-6 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <div class="flex items-center space-x-2">
+              <svg *ngIf="isUploading" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>{{ isUploading ? 'Subiendo...' : 'Subir Material' }}</span>
+            </div>
+          </button>
+        </div>
+      </form>
+    </div>

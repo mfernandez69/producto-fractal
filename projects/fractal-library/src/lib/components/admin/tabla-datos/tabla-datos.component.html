@@ -1,0 +1,89 @@
+<div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h3 class="text-lg font-semibold text-gray-900">Gestión de Usuarios</h3>
+    <p class="text-sm text-gray-600 mt-1">Lista de usuarios del sistema</p>
+  </div>
+  
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Registro</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let usuario of usuarios" class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            #{{ usuario.id }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 h-10 w-10">
+                <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                  <span class="text-sm font-medium text-gray-700">{{ usuario.nombre.charAt(0) }}</span>
+                </div>
+              </div>
+              <div class="ml-4">
+                <div class="text-sm font-medium text-gray-900">{{ usuario.nombre }}</div>
+                <div class="text-sm text-gray-500">{{ usuario.email }}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" 
+                  [class.bg-red-100]="usuario.rol === 'Admin'" 
+                  [class.text-red-800]="usuario.rol === 'Admin'"
+                  [class.bg-blue-100]="usuario.rol === 'Moderador'" 
+                  [class.text-blue-800]="usuario.rol === 'Moderador'"
+                  [class.bg-gray-100]="usuario.rol === 'Usuario'" 
+                  [class.text-gray-800]="usuario.rol === 'Usuario'">
+              {{ usuario.rol }}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                  [class.bg-green-100]="usuario.estado === 'Activo'" 
+                  [class.text-green-800]="usuario.estado === 'Activo'"
+                  [class.bg-red-100]="usuario.estado === 'Inactivo'" 
+                  [class.text-red-800]="usuario.estado === 'Inactivo'">
+              {{ usuario.estado }}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            {{ usuario.fechaRegistro }}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+            <button class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 hover:bg-indigo-200 px-3 py-1 rounded transition-colors">
+              Editar
+            </button>
+            <button (click)="eliminarUsuario(usuario.id)" 
+                    class="text-red-600 hover:text-red-900 bg-red-100 hover:bg-red-200 px-3 py-1 rounded transition-colors">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="bg-gray-50 px-6 py-3 border-t border-gray-200">
+    <div class="flex items-center justify-between">
+      <div class="text-sm text-gray-700">
+        Mostrando <span class="font-medium">{{ usuarios.length }}</span> usuarios
+      </div>
+      <div class="flex space-x-2">
+        <button class="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors">
+          Anterior
+        </button>
+        <button class="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors">
+          Siguiente
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
