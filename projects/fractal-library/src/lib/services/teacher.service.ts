@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { collection, collectionData, deleteDoc, doc, query, updateDoc, where, addDoc, Timestamp } from '@angular/fire/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { Observable, catchError, map, of } from 'rxjs';
-import { Material } from '../../models/material.model';
-import { Student } from '../../models/student.model';
+import { Material } from '../models/material.model';
+import { Student } from '../models/student.model';
 
 
 

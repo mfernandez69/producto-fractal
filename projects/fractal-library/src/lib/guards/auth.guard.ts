@@ -4,7 +4,7 @@ import { inject } from '@angular/core';
 import { map, switchMap, of } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
-import { AuthStateService } from '../../shared/services/auth-state.service';
+import { AuthStateService } from '../services/auth-state.service';
 
 export const privateGuard = (): CanActivateFn => {
   return () => {
