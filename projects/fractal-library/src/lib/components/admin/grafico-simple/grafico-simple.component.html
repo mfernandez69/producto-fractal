@@ -1,0 +1,23 @@
+<div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+  <h3 class="text-lg font-semibold text-gray-900 mb-6">Ventas Mensuales</h3>
+  
+  <div class="flex items-end justify-between h-64 space-x-2">
+    <div *ngFor="let data of chartData" class="flex flex-col items-center flex-1">
+      <div class="w-full flex flex-col justify-end h-48 mb-2">
+        <div class="bg-blue-500 rounded-t transition-all duration-500 hover:bg-blue-600 cursor-pointer relative group"
+             [style.height.%]="data.percentage">
+          <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            {{ data.value }}%
+          </div>
+        </div>
+      </div>
+      <span class="text-sm text-gray-600 font-medium">{{ data.month }}</span>
+    </div>
+  </div>
+  
+  <div class="mt-4 flex items-center justify-between text-sm text-gray-500">
+    <span>0%</span>
+    <span>50%</span>
+    <span>100%</span>
+  </div>
+</div>
