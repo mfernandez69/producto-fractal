@@ -1,5 +1,5 @@
 {
-  "name": "fractal-library",
+  "name": "@mfernandez69/fractal-library",
   "version": "0.0.1",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

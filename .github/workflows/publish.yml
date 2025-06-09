@@ -20,6 +20,7 @@ jobs:
       with:
         node-version: 20
         registry-url: https://npm.pkg.github.com
+        scope: '@mfernandez69'   # Añadido scope para autenticación correcta
 
     - name: Install Angular CLI
       run: npm install -g @angular/cli
