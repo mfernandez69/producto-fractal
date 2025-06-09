@@ -2,14 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { collection, collectionData, limit, orderBy, query, where } from '@angular/fire/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { Observable, map, catchError, of } from 'rxjs';
-
-interface Usuario {
-  email: string;
-  puntuacion: number;
-  role: string;
-  createdAt: Date;
-  cursoRef: string;
-}
+import { Usuario } from '../../models/usuario.model'; // Adjust the import path as necessary
 
 @Injectable({
   providedIn: 'root'

@@ -3,17 +3,9 @@ import { collection, collectionData, deleteDoc, doc, query, updateDoc, where, ad
 import { Firestore } from '@angular/fire/firestore';
 import { Observable, catchError, map, of } from 'rxjs';
 import { Material } from '../../models/material.model';
+import { Student } from '../../models/student.model';
 
-export interface Student {
-  id?: string;
-  email: string;
-  displayName?: string;
-  puntuacion: number;
-  role: string;
-  createdAt: Date;
-  cursoRef: string;
-  deAlta?: boolean;
-}
+
 
 @Injectable({
   providedIn: 'root'

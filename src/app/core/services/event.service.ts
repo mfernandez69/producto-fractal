@@ -2,17 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { collection, collectionData, query, where, Timestamp } from '@angular/fire/firestore';
 import { Firestore } from '@angular/fire/firestore';
 import { Observable, map, catchError, of } from 'rxjs';
+import { Evento } from '../../models/evento.model';
 
-export interface Evento {
-  titulo: string;
-  descripcion: string;
-  fecha: Date | Timestamp;
-  ubicacion: string;
-  organizador: string;
-  cursoRef: string;
-  createdAt: Date | Timestamp;
-  id?: string;
-}
+
 
 @Injectable({
   providedIn: 'root'
