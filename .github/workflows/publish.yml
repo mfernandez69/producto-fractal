@@ -14,18 +14,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 20
         registry-url: https://npm.pkg.github.com
 
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+
     - name: Install Dependencies
       run: npm ci
 
     - name: Build Library
-      run: ng build fractal-library --configuration production
+      run: npm run build:library
 
     - name: Publish to GitHub Packages
       run: |
