@@ -21,6 +21,7 @@
     "@angular/platform-browser": "19.2.10",
     "@angular/platform-browser-dynamic": "19.2.10",
     "@angular/router": "19.2.10",
+    "@mfernandez69/fractal-library": "^0.0.2",
     "@tailwindcss/postcss": "^4.1.4",
     "@tailwindcss/vite": "^4.1.4",
     "postcss": "^8.5.3",
