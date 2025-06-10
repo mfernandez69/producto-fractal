@@ -28,15 +28,13 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
-    - name: Increment Version
-      run: npm version patch --no-git-tag-version
-
     - name: Build Library
       run: npm run build:library
 
-    - name: Publish to GitHub Packages
+    - name: Increment Version and Publish
       run: |
         cd dist/fractal-library
+        npm version patch --no-git-tag-version
         npm publish --access public
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
