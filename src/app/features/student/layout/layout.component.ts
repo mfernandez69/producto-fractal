@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { RankingComponent } from "../components/ranking/ranking.component";
-import { ScheduleComponent } from "../components/schedule/schedule.component";
+import { RankingComponent, ScheduleComponent } from '@mfernandez69/fractal-library';
+/* import { RankingComponent } from "../components/ranking/ranking.component";
+import { ScheduleComponent } from "../components/schedule/schedule.component"; */
 @Component({
   selector: 'app-layout',
-  imports: [],
+  imports: [ScheduleComponent,RankingComponent],
   templateUrl: './layout.component.html',
   styles: ``
 })

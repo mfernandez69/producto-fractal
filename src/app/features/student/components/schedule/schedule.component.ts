@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventService, Evento } from '../../../../core/services/event.service';
+import { EventService } from '../../../../core/services/event.service';
 import { Observable, Subscription, map, tap, shareReplay } from 'rxjs';
+import { Evento } from '../../../../models/evento.model';
 
 @Component({
   selector: 'app-schedule',

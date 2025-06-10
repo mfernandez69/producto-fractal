@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { publicGuard } from './guards/auth.guard';
+import { LoginComponent } from '@mfernandez69/fractal-library';
 
 export const authRoutes: Routes = [
   {
@@ -8,7 +9,7 @@ export const authRoutes: Routes = [
     children: [
       {
         path: 'login',
-        loadComponent: () => import('./features/login-page/login-page.component')
+        loadComponent: () => Promise.resolve(LoginComponent)
       }
     ]
   }
