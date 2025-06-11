@@ -7,7 +7,9 @@ export const homeRoutes: Routes = [
         children: [
             {
                 path: '',
-                loadComponent: () => import('./layout/layout.component'),
+                
+                loadComponent: () => import('../dashboard/dashboard.component').then(m => m.DashboardComponent)
+
             }
         ],
     }

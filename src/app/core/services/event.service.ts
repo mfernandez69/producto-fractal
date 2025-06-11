@@ -4,8 +4,6 @@ import { Firestore } from '@angular/fire/firestore';
 import { Observable, map, catchError, of } from 'rxjs';
 import { Evento } from '../../models/evento.model';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -109,3 +107,6 @@ export class EventService {
     }
   }
 }
+
+// <-- CAMBIO APLICADO AQUÍ -->
+export type { Evento };
